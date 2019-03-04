@@ -1,5 +1,5 @@
 import React from "react";
-import { getCourses } from "./api/courseApi";
+import { getCourses, deleteCourse } from "./api/courseApi";
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +17,17 @@ class App extends React.Component {
     });
   }
 
+  handleDelete(courseId) {
+    deleteCourse(courseId).then(() => {
+      const courses = this.state.courses.filter(
+        course => course.id !== courseId
+      );
+      this.setState({ courses }, () => {
+        alert("Course deleted");
+      });
+    });
+  }
+
   render() {
     return (
       <>
@@ -24,13 +35,21 @@ class App extends React.Component {
         <h2>Courses</h2>
         <table>
           <thead>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
+            <tr>
+              <th />
+              <th>Title</th>
+              <th>Author</th>
+              <th>Category</th>
+            </tr>
           </thead>
           <tbody>
             {this.state.courses.map(course => (
-              <tr>
+              <tr key={course.id}>
+                <td>
+                  <button onClick={event => this.handleDelete(course.id)}>
+                    Delete
+                  </button>
+                </td>
                 <td>{course.title}</td>
                 <td>{course.authorId}</td>
                 <td>{course.category}</td>
