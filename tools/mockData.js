@@ -71,7 +71,6 @@ const courses = [
   }
 ];
 
-const vehicles = [{ brand: "Chevy", model: "Malibu" }];
 const authors = [
   { id: 1, name: "Cory House" },
   { id: 2, name: "Scott Allen" },
@@ -88,7 +87,6 @@ const newCourse = {
 // Using CommonJS style export so we can consume via Node (without using Babel-node)
 module.exports = {
   newCourse,
-  vehicles,
   courses,
   authors
 };
