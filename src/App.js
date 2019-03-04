@@ -4,6 +4,7 @@ import { getCourses, deleteCourse } from "./api/courseApi";
 class App extends React.Component {
   constructor(props) {
     super(props);
+    //test
 
     // Initialize state with an empty course array.
     this.state = {
