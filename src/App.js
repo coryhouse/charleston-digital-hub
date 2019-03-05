@@ -1,54 +1,15 @@
 import React from "react";
-import { getCourses, deleteCourse } from "./api/courseApi";
-import CourseTable from "./CourseTable";
+import { Route } from "react-router-dom";
+import HomePage from "./HomePage";
+import CoursesPage from "./CoursesPage";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // Initialize state with an empty course array.
-    this.state = {
-      courses: []
-    };
-
-    // Bind in constructor
-    // this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  componentDidMount() {
-    getCourses().then(courses => {
-      this.setState({ courses });
-    });
-  }
-
-  // Experimental class field / class property
-  handleDelete = courseId => {
-    deleteCourse(courseId).then(() => {
-      const courses = this.state.courses.filter(
-        course => course.id !== courseId
-      );
-      this.setState({ courses }, () => {
-        alert("Course deleted");
-      });
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <h1>App</h1>
-        <h2>Courses</h2>
-        {this.state.courses.length === 0 ? (
-          <p>No courses :(</p>
-        ) : (
-          <CourseTable
-            courses={this.state.courses}
-            onClickDelete={this.handleDelete}
-          />
-        )}
-      </>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div>
+      <Route path="/" component={HomePage} exact />
+      <Route path="/courses" component={CoursesPage} />
+    </div>
+  );
+};
 
 export default App;
