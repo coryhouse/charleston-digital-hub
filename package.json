@@ -6,7 +6,8 @@
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "react-toastify": "^4.5.2"
   },
   "scripts": {
     "start": "cross-env REACT_APP_API_URL=http://localhost:3001 run-p start:dev start:api",

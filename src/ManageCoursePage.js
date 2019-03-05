@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TextInput from "./TextInput";
 import { saveCourse } from "./api/courseApi";
+import { toast } from "react-toastify";
 
 class ManageCoursePage extends Component {
   state = {
@@ -48,6 +49,7 @@ class ManageCoursePage extends Component {
     };
 
     saveCourse(newCourse).then(() => {
+      toast.success("🦄Course saved!");
       this.props.history.push("/courses");
     });
   };
