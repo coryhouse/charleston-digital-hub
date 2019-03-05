@@ -4,20 +4,16 @@ import TextInput from "./TextInput";
 import { saveCourse } from "./api/courseApi";
 
 class ManageCoursePage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      course: {
-        id: null,
-        title: "",
-        category: "",
-        slug: "",
-        authorId: ""
-      },
-      errors: {}
-    };
-  }
+  state = {
+    course: {
+      id: null,
+      title: "",
+      category: "",
+      slug: "",
+      authorId: ""
+    },
+    errors: {}
+  };
 
   static propTypes = {
     history: PropTypes.object.isRequired
@@ -31,12 +27,13 @@ class ManageCoursePage extends Component {
   };
 
   handleSubmit = event => {
+    const { course } = this.state;
     event.preventDefault();
     const errors = {};
 
-    if (!this.state.course.title) errors.title = "Title is required.";
-    if (!this.state.course.category) errors.category = "Category is required.";
-    if (!this.state.course.authorId || isNaN(this.state.course.authorId))
+    if (!course.title) errors.title = "Title is required.";
+    if (!course.category) errors.category = "Category is required.";
+    if (!course.authorId || isNaN(course.authorId))
       errors.authorId = "Author ID must be a number.";
 
     // Is there at least one property on the errors object? If so, validation failed.
@@ -46,8 +43,8 @@ class ManageCoursePage extends Component {
     }
 
     const newCourse = {
-      ...this.state.course,
-      authorId: parseInt(this.state.course.authorId, 10)
+      ...course,
+      authorId: parseInt(course.authorId, 10)
     };
 
     saveCourse(newCourse).then(() => {
@@ -56,6 +53,7 @@ class ManageCoursePage extends Component {
   };
 
   render() {
+    const { course, errors } = this.state;
     return (
       <div>
         <h1>Manage Course</h1>
@@ -65,8 +63,8 @@ class ManageCoursePage extends Component {
             id="title"
             name="title"
             onChange={this.handleChange}
-            value={this.state.course.title}
-            error={this.state.errors.title}
+            value={course.title}
+            error={errors.title}
           />
 
           <TextInput
@@ -74,8 +72,8 @@ class ManageCoursePage extends Component {
             id="category"
             name="category"
             onChange={this.handleChange}
-            value={this.state.course.category}
-            error={this.state.errors.category}
+            value={course.category}
+            error={errors.category}
           />
 
           <TextInput
@@ -83,8 +81,8 @@ class ManageCoursePage extends Component {
             id="author"
             name="authorId"
             onChange={this.handleChange}
-            value={this.state.course.authorId}
-            error={this.state.errors.authorId}
+            value={course.authorId}
+            error={errors.authorId}
           />
 
           <button type="submit">Save Course</button>
