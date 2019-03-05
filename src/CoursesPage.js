@@ -1,6 +1,7 @@
 import React from "react";
 import { getCourses, deleteCourse } from "./api/courseApi";
 import CourseTable from "./CourseTable";
+import { Redirect } from "react-router-dom";
 
 class CoursesPage extends React.Component {
   constructor(props) {
@@ -8,7 +9,8 @@ class CoursesPage extends React.Component {
 
     // Initialize state with an empty course array.
     this.state = {
-      courses: []
+      courses: [],
+      redirectToAddCourse: false
     };
 
     // Bind in constructor
@@ -33,11 +35,16 @@ class CoursesPage extends React.Component {
     });
   };
 
+  handleClickAddCourse = () => {
+    this.setState({ redirectToAddCourse: true });
+  };
+
   render() {
     return (
       <>
-        <h1>App</h1>
-        <h2>Courses</h2>
+        {this.state.redirectToAddCourse && <Redirect to="/course" />}
+        <h1>Courses</h1>
+        <button onClick={this.handleClickAddCourse}>Add Course</button>
         {this.state.courses.length === 0 ? (
           <p>No courses :(</p>
         ) : (
