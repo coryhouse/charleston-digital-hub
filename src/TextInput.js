@@ -1,7 +1,7 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 
-const TextInput = ({ id, name, value, label, onChange }) => {
+const TextInput = ({ id, name, error, value, label, onChange }) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>
@@ -13,6 +13,8 @@ const TextInput = ({ id, name, value, label, onChange }) => {
         onChange={onChange}
         value={value}
       />
+      <br />
+      {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
   );
 };
@@ -22,7 +24,12 @@ TextInput.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string
+};
+
+TextInput.defaultProps = {
+  error: ""
 };
 
 export default TextInput;
