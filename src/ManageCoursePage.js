@@ -36,7 +36,8 @@ class ManageCoursePage extends Component {
 
     if (!this.state.course.title) errors.title = "Title is required.";
     if (!this.state.course.category) errors.category = "Category is required.";
-    if (!this.state.course.authorId) errors.authorId = "Author is required.";
+    if (!this.state.course.authorId || isNaN(this.state.course.authorId))
+      errors.authorId = "Author ID must be a number.";
 
     // Is there at least one property on the errors object? If so, validation failed.
     if (Object.keys(errors).length > 0) {
@@ -44,7 +45,12 @@ class ManageCoursePage extends Component {
       return;
     }
 
-    saveCourse(this.state.course).then(() => {
+    const newCourse = {
+      ...this.state.course,
+      authorId: parseInt(this.state.course.authorId, 10)
+    };
+
+    saveCourse(newCourse).then(() => {
       this.props.history.push("/courses");
     });
   };
