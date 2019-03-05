@@ -1,5 +1,6 @@
 import React from "react";
 import { getCourses, deleteCourse } from "./api/courseApi";
+import CourseTable from "./CourseTable";
 
 class App extends React.Component {
   constructor(props) {
@@ -9,6 +10,9 @@ class App extends React.Component {
     this.state = {
       courses: []
     };
+
+    // Bind in constructor
+    // this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -17,7 +21,8 @@ class App extends React.Component {
     });
   }
 
-  handleDelete(courseId) {
+  // Experimental class field / class property
+  handleDelete = courseId => {
     deleteCourse(courseId).then(() => {
       const courses = this.state.courses.filter(
         course => course.id !== courseId
@@ -26,37 +31,21 @@ class App extends React.Component {
         alert("Course deleted");
       });
     });
-  }
+  };
 
   render() {
     return (
       <>
         <h1>App</h1>
         <h2>Courses</h2>
-        <table>
-          <thead>
-            <tr>
-              <th />
-              <th>Title</th>
-              <th>Author</th>
-              <th>Category</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.courses.map(course => (
-              <tr key={course.id}>
-                <td>
-                  <button onClick={event => this.handleDelete(course.id)}>
-                    Delete
-                  </button>
-                </td>
-                <td>{course.title}</td>
-                <td>{course.authorId}</td>
-                <td>{course.category}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {this.state.courses.length === 0 ? (
+          <p>No courses :(</p>
+        ) : (
+          <CourseTable
+            courses={this.state.courses}
+            onClickDelete={this.handleDelete}
+          />
+        )}
       </>
     );
   }
