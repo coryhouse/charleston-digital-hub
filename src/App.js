@@ -5,8 +5,8 @@ import CoursesPage from "./CoursesPage";
 import Nav from "./Nav";
 import ManageCoursePage from "./ManageCoursePage";
 import PageNotFound from "./PageNotFound";
-import { getCourses, deleteCourse } from "./api/courseApi";
-import { ToastContainer } from "react-toastify";
+import { getCourses, deleteCourse, saveCourse } from "./api/courseApi";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
@@ -32,11 +32,27 @@ class App extends React.Component {
     });
   };
 
-  handleSave(course) {
-    // update the state array to contain the new course
-    const courses = [...this.state.courses, course];
-    this.setState({ courses });
-  }
+  handleSave = course => {
+    return saveCourse(course).then(savedCourse => {
+      toast.success("🦄Course saved!");
+      let courses;
+      if (course.id) {
+        // okay, i must be editing because the ID is populated
+        courses = this.state.courses.map(c => {
+          if (c.id === course.id) {
+            // so this is the course that was just saved
+            return savedCourse;
+          } else {
+            return c;
+          }
+        });
+      } else {
+        // update the state array to contain the new course
+        courses = [...this.state.courses, savedCourse];
+      }
+      this.setState({ courses });
+    });
+  };
 
   render() {
     return (
@@ -74,6 +90,7 @@ class App extends React.Component {
               />
             )}
           />
+          <Route path="/404" component={PageNotFound} />
           <Route component={PageNotFound} />
         </Switch>
         <ToastContainer hideProgressBar />
