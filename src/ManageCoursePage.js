@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TextInput from "./TextInput";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 class ManageCoursePage extends Component {
   state = {
@@ -22,7 +23,7 @@ class ManageCoursePage extends Component {
 
   componentDidMount() {
     const slug = this.props.match.params.slug;
-    if (slug) {
+    if (slug && this.props.courses.length > 0) {
       // So we're editing an existing course
       const course = this.props.courses.find(course => course.slug === slug);
       if (!course) this.props.history.push("/404");
@@ -71,6 +72,7 @@ class ManageCoursePage extends Component {
 
   render() {
     const { course, errors } = this.state;
+    if (this.props.courses.length === 0) return <Spinner />;
     return (
       <div>
         <h1>Manage Course</h1>
