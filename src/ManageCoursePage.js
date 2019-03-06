@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TextInput from "./TextInput";
+import { toast } from "react-toastify";
 
 class ManageCoursePage extends Component {
   state = {
@@ -59,7 +60,13 @@ class ManageCoursePage extends Component {
 
     this.props
       .onSave(newCourse)
-      .then(() => this.props.history.push("/courses"));
+      .then(() => {
+        toast.success("🦄Course saved!");
+        this.props.history.push("/courses");
+      })
+      .catch(error => {
+        toast.error("Oops! Save failed. Please try again.  ¯\\_(ツ)_/¯");
+      });
   };
 
   render() {

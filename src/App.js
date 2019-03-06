@@ -6,7 +6,7 @@ import Nav from "./Nav";
 import ManageCoursePage from "./ManageCoursePage";
 import PageNotFound from "./PageNotFound";
 import { getCourses, deleteCourse, saveCourse } from "./api/courseApi";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
@@ -34,7 +34,6 @@ class App extends React.Component {
 
   handleSave = course => {
     return saveCourse(course).then(savedCourse => {
-      toast.success("🦄Course saved!");
       let courses;
       if (course.id) {
         // okay, i must be editing because the ID is populated
