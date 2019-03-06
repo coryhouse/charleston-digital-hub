@@ -17,8 +17,15 @@ class ManageCoursePage extends Component {
   };
 
   static propTypes = {
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    onSave: PropTypes.func.isRequired
   };
+
+  componentDidMount() {
+    const slug = this.props.match.params.slug;
+    if (slug) {
+    }
+  }
 
   handleChange = event => {
     const course = { ...this.state.course };
@@ -48,8 +55,9 @@ class ManageCoursePage extends Component {
       authorId: parseInt(course.authorId, 10)
     };
 
-    saveCourse(newCourse).then(() => {
+    saveCourse(newCourse).then(savedCourse => {
       toast.success("🦄Course saved!");
+      this.props.onSave(savedCourse);
       this.props.history.push("/courses");
     });
   };

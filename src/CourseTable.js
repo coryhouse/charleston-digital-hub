@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { course } from "./propTypes";
+import { Link } from "react-router-dom";
 
 const CourseTable = ({ courses, onClickDelete }) => {
   return (
@@ -21,7 +22,9 @@ const CourseTable = ({ courses, onClickDelete }) => {
                 Delete
               </button>
             </td>
-            <td>{course.title}</td>
+            <td>
+              <Link to={"/course/" + course.slug}>{course.title}</Link>
+            </td>
             <td>{course.authorId}</td>
             <td>{course.category}</td>
           </tr>
