@@ -71,8 +71,10 @@ class App extends React.Component {
           />
           <Route
             path="/course/:slug"
+            // When key changes, ManageCoursePage will be re-mounted, and componentDidMount will thus re-run
             render={props => (
               <ManageCoursePage
+                key={this.state.courses.length}
                 {...props}
                 courses={this.state.courses}
                 onSave={this.handleSave}
