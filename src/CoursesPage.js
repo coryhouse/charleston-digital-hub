@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CourseTable from "./CourseTable";
 import { Redirect } from "react-router-dom";
 import { course } from "./propTypes";
+import { connect } from "react-redux";
+import * as courseActions from "./redux/actions/courseActions";
 
 function CoursesPage(props) {
   const [redirectToAddCourse, setRedirectToAddCourse] = useState(false);
+
+  useEffect(() => {
+    props.dispatch(courseActions.loadCourses());
+  }, []);
 
   function handleClickAddCourse() {
     setRedirectToAddCourse(true);
@@ -30,4 +36,12 @@ CoursesPage.propTypes = {
   onDelete: PropTypes.func.isRequired
 };
 
-export default CoursesPage;
+// This says: Pass the courses data from the Redux store to this component as props.courses.
+function mapStateToProps(state) {
+  return {
+    courses: state.courses
+  };
+}
+
+// Connect this component to the redux store and make the data we've specified in mapStateToProps available via props.
+export default connect(mapStateToProps)(CoursesPage);
