@@ -8,15 +8,27 @@ import PageNotFound from "./PageNotFound";
 import { getCourses, deleteCourse, saveCourse } from "./api/courseApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserContext from "./UserContext";
 
 class App extends React.Component {
   state = {
-    courses: []
+    courses: [],
+    user: {
+      name: "Cory",
+      role: "weirdo",
+      makeAdmin: this.makeAdmin.bind(this)
+    }
   };
 
   componentDidMount() {
     getCourses().then(courses => {
       this.setState({ courses });
+    });
+  }
+
+  makeAdmin() {
+    this.setState(prevState => {
+      return { user: { ...prevState.user, role: "Admin" } };
     });
   }
 
@@ -55,7 +67,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <UserContext.Provider value={this.state.user}>
         <Nav />
         <Switch>
           <Route path="/" component={HomePage} exact />
@@ -95,7 +107,7 @@ class App extends React.Component {
           <Route component={PageNotFound} />
         </Switch>
         <ToastContainer hideProgressBar />
-      </div>
+      </UserContext.Provider>
     );
   }
 }
