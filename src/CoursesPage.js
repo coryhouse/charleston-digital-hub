@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import { course } from "./propTypes";
 import { connect } from "react-redux";
 import * as courseActions from "./redux/actions/courseActions";
+import { toast } from "react-toastify";
 
 function CoursesPage(props) {
   const [redirectToAddCourse, setRedirectToAddCourse] = useState(false);
@@ -17,6 +18,11 @@ function CoursesPage(props) {
     setRedirectToAddCourse(true);
   }
 
+  function handleDelete(course) {
+    props.dispatch(courseActions.deleteCourse(course));
+    toast.success("Course (will hopefully be) deleted (soonish)");
+  }
+
   return (
     <>
       {redirectToAddCourse && <Redirect to="/course" />}
@@ -25,15 +31,14 @@ function CoursesPage(props) {
       {props.courses.length === 0 ? (
         <p>No courses :(</p>
       ) : (
-        <CourseTable courses={props.courses} onClickDelete={props.onDelete} />
+        <CourseTable courses={props.courses} onClickDelete={handleDelete} />
       )}
     </>
   );
 }
 
 CoursesPage.propTypes = {
-  courses: PropTypes.arrayOf(course).isRequired,
-  onDelete: PropTypes.func.isRequired
+  courses: PropTypes.arrayOf(course).isRequired
 };
 
 // This says: Pass the courses data from the Redux store to this component as props.courses.

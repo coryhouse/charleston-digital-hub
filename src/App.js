@@ -20,30 +20,13 @@ class App extends React.Component {
     });
   }
 
-  // Experimental class field / class property
-  handleDelete = courseId => {
-    deleteCourse(courseId).then(() => {
-      const courses = this.state.courses.filter(
-        course => course.id !== courseId
-      );
-      this.setState({ courses }, () => {
-        alert("Course deleted");
-      });
-    });
-  };
-
   render() {
     return (
       <div>
         <Nav />
         <Switch>
           <Route path="/" component={HomePage} exact />
-          <Route
-            path="/courses"
-            render={props => (
-              <CoursesPage {...props} onDelete={this.handleDelete} />
-            )}
-          />
+          <Route path="/courses" component={CoursesPage} />
           <Route path="/course/:slug" component={ManageCoursePage} />
           <Route path="/course/" component={ManageCoursePage} />
           <Route path="/404" component={PageNotFound} />

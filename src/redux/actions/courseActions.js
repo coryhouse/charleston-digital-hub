@@ -15,6 +15,10 @@ function createCourseSuccess(course) {
   return { type: types.CREATE_COURSE_SUCCESS, course };
 }
 
+function deleteCourseOptimistic(course) {
+  return { type: types.DELETE_COURSE_OPTIMISTIC, course };
+}
+
 // Our first thunk. We'll call this from our React component
 export function loadCourses() {
   return function(dispatch) {
@@ -31,5 +35,12 @@ export function saveCourse(course) {
         ? dispatch(updateCourseSuccess(savedCourse))
         : dispatch(createCourseSuccess(savedCourse));
     });
+  };
+}
+
+export function deleteCourse(course) {
+  return function(dispatch) {
+    dispatch(deleteCourseOptimistic(course));
+    return courseApi.deleteCourse(course.id);
   };
 }
