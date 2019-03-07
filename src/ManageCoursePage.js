@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import TextInput from "./TextInput";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
+import { connect } from "react-redux";
+import * as courseActions from "./redux/actions/courseActions";
 
 function ManageCoursePage(props) {
   const [course, setCourse] = useState({
@@ -16,6 +18,10 @@ function ManageCoursePage(props) {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    props.dispatch(courseActions.loadCourses());
+  }, []);
+
+  useEffect(() => {
     const slug = props.match.params.slug;
     if (slug && props.courses.length > 0) {
       // So we're editing an existing course
@@ -23,7 +29,7 @@ function ManageCoursePage(props) {
       if (!course) props.history.push("/404");
       setCourse({ ...course });
     }
-  }, []); // Empty dependency array means this will run only once, when component mounts.
+  }, [props.courses]); // Empty dependency array means this will run only once, when component mounts.
 
   const handleChange = event => {
     const _course = { ...course };
@@ -106,4 +112,10 @@ ManageCoursePage.propTypes = {
   onSave: PropTypes.func.isRequired
 };
 
-export default ManageCoursePage;
+function mapStateToProps(state) {
+  return {
+    courses: state.courses
+  };
+}
+
+export default connect(mapStateToProps)(ManageCoursePage);
