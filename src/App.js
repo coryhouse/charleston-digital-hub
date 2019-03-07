@@ -62,11 +62,7 @@ class App extends React.Component {
           <Route
             path="/courses"
             render={props => (
-              <CoursesPage
-                {...props}
-                courses={this.state.courses}
-                onDelete={this.handleDelete}
-              />
+              <CoursesPage {...props} onDelete={this.handleDelete} />
             )}
           />
           <Route
