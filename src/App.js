@@ -32,27 +32,6 @@ class App extends React.Component {
     });
   };
 
-  handleSave = course => {
-    return saveCourse(course).then(savedCourse => {
-      let courses;
-      if (course.id) {
-        // okay, i must be editing because the ID is populated
-        courses = this.state.courses.map(c => {
-          if (c.id === course.id) {
-            // so this is the course that was just saved
-            return savedCourse;
-          } else {
-            return c;
-          }
-        });
-      } else {
-        // update the state array to contain the new course
-        courses = [...this.state.courses, savedCourse];
-      }
-      this.setState({ courses });
-    });
-  };
-
   render() {
     return (
       <div>
@@ -65,19 +44,8 @@ class App extends React.Component {
               <CoursesPage {...props} onDelete={this.handleDelete} />
             )}
           />
-          <Route
-            path="/course/:slug"
-            // When key changes, ManageCoursePage will be re-mounted, and componentDidMount will thus re-run
-            render={props => (
-              <ManageCoursePage {...props} onSave={this.handleSave} />
-            )}
-          />
-          <Route
-            path="/course/"
-            render={props => (
-              <ManageCoursePage {...props} onSave={this.handleSave} />
-            )}
-          />
+          <Route path="/course/:slug" component={ManageCoursePage} />
+          <Route path="/course/" component={ManageCoursePage} />
           <Route path="/404" component={PageNotFound} />
           <Route component={PageNotFound} />
         </Switch>
