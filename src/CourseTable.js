@@ -4,6 +4,7 @@ import { course } from "./propTypes";
 import { Link } from "react-router-dom";
 
 const CourseTable = ({ courses, onClickDelete }) => {
+  if (courses.length === 0) return <p>No courses.</p>;
   return (
     <table>
       <thead>
