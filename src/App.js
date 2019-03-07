@@ -5,7 +5,7 @@ import CoursesPage from "./CoursesPage";
 import Nav from "./Nav";
 import ManageCoursePage from "./ManageCoursePage";
 import PageNotFound from "./PageNotFound";
-import { getCourses, deleteCourse, saveCourse } from "./api/courseApi";
+import { getCourses } from "./api/courseApi";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
